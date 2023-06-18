@@ -9,6 +9,7 @@ fn gen(ast: at, indent: i64) -> String {
         at::Float{value} => format!("{}{}", c_indent, value),
         at::Bool{value} => format!("{}{}", c_indent, value),
         at::String{value} => format!("{}{}", c_indent, value),
+        at::Ident{value} => format!("{}{}", c_indent, value),
         at::Complex{real, imag} => format!("{}{} + ({} *j)", c_indent, real, imag),
         at::Bytes{elems} => format!("{}", String::from_utf8(elems).expect("Found invalid UTF-8")),
         at::Tuple{elems} => format!("{}", aleph_syntax_tree::gen_list_expr_sep(elems, gen, ", ")),
@@ -50,7 +51,7 @@ fn gen(ast: at, indent: i64) -> String {
         at::Return{value} => format!("return {}", gen(*value, 0)),
         at::Comment{value} => format!("{}{}", c_indent, value),
         at::CommentMulti{value} => format!("{}{}", c_indent, value),
-        at::Break | at::Continue | at::Assert { .. } => todo!(),
+        _ => todo!()
     }
 }
 
